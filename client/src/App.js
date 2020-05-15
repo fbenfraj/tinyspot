@@ -8,15 +8,26 @@ function App() {
   const params = getHashParams();
   const loggedIn = params.access_token ? true : false;
   const [nowPlaying, setNowPlaying] = useState({
-    name: "Not checked.",
+    name: "Click on the button below to find out!",
     image: "",
   });
+  const [name, setName] = useState("");
 
   useEffect(() => {
     if (params.access_token) {
       spotifyWebApi.setAccessToken(params.access_token);
     }
   }, [params]);
+
+  useEffect(() => {
+    async function setUserInfos() {
+      if (params.access_token) {
+        const userData = await spotifyWebApi.getMe();
+        setName(userData.display_name);
+      }
+    }
+    setUserInfos();
+  }, [params.access_token]);
 
   function getHashParams() {
     var hashParams = {};
@@ -41,16 +52,54 @@ function App() {
     }
   }
 
+  async function pauseSong() {
+    try {
+      await spotifyWebApi.pause();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function playSong() {
+    try {
+      await spotifyWebApi.play();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function getMe() {
+    try {
+      const response = await spotifyWebApi.getMe();
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <div className="App">
-      <a href="http://localhost:8888">
-        <button>Login with Spotify</button>
-      </a>
-      <div>
-        <p>Now playing: {nowPlaying.name}</p>
-        <img src={nowPlaying.image} style={{ width: 100 }} />
-      </div>
-      {loggedIn && <button onClick={getNowPlaying}>Check now playing</button>}
+      <h1>Welcome to Tinyspot{loggedIn && ", " + name}!</h1>
+      {!loggedIn && (
+        <div>
+          <h2>
+            Please connect to your Spotify account thanks to the button below.
+          </h2>
+          <a href="http://localhost:8888">
+            <button>Login with Spotify</button>
+          </a>
+        </div>
+      )}
+      {loggedIn && (
+        <div>
+          <p>Now playing: {nowPlaying.name}</p>
+          <img src={nowPlaying.image} style={{ width: 100 }} />
+          <br />
+          <button onClick={getNowPlaying}>Check now playing</button>
+          <button onClick={pauseSong}>Pause</button>
+          <button onClick={playSong}>Play</button>
+        </div>
+      )}
     </div>
   );
 }
