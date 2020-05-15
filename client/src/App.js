@@ -11,7 +11,7 @@ function App() {
     name: "Click on the button below to find out!",
     image: "",
   });
-  const [name, setName] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
     if (params.access_token) {
@@ -23,7 +23,8 @@ function App() {
     async function setUserInfos() {
       if (params.access_token) {
         const userData = await spotifyWebApi.getMe();
-        setName(userData.display_name);
+        console.log(userData);
+        setDisplayName(userData.display_name);
       }
     }
     setUserInfos();
@@ -79,13 +80,13 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Welcome to Tinyspot{loggedIn && ", " + name}!</h1>
+      <h1>Welcome to Tinyspot{loggedIn && ", " + displayName}!</h1>
       {!loggedIn && (
         <div>
           <h2>
             Please connect to your Spotify account thanks to the button below.
           </h2>
-          <a href="http://localhost:8888">
+          <a href="http://localhost:8888/login">
             <button>Login with Spotify</button>
           </a>
         </div>

@@ -12,8 +12,8 @@
     "request": "~2.83.0"
   },
   "scripts": {
-    "start": "env-cmd -f .env node authorization_code/app.js",
-    "dev": "env-cmd -f .env nodemon authorization_code/app.js"
+    "start": "env-cmd -f .env node app.js",
+    "dev": "env-cmd -f .env nodemon app.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
