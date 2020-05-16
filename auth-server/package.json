@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "env-cmd -f .env node app.js",
-    "dev": "env-cmd -f .env nodemon app.js"
+    "dev": "env-cmd -f .env nodemon -L --max-old-space-size=2048 app.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

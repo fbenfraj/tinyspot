@@ -15,7 +15,7 @@ var cookieParser = require("cookie-parser");
 
 var client_id = process.env.SPOTIFY_CLIENT_ID; // Your client id
 var client_secret = process.env.SPOTIFY_SECRET; // Your secret
-var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
+var redirect_uri = "http://localhost:8080/callback"; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -41,6 +41,12 @@ app
   .use(express.static(__dirname + "/public"))
   .use(cors())
   .use(cookieParser());
+
+app.get("/ping", (req, res) => {
+  res.send({
+    message: "Server is up. :)"
+  });
+});
 
 app.get("/login", function (req, res) {
   var state = generateRandomString(16);
@@ -88,7 +94,7 @@ app.get("/callback", function (req, res) {
       headers: {
         Authorization:
           "Basic " +
-          new Buffer(client_id + ":" + client_secret).toString("base64"),
+          Buffer.from(client_id + ":" + client_secret).toString("base64"),
       },
       json: true,
     };
@@ -111,7 +117,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "http://localhost:3000/#" +
+          "http://localhost:3001/#" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,
@@ -137,7 +143,7 @@ app.get("/refresh_token", function (req, res) {
     headers: {
       Authorization:
         "Basic " +
-        new Buffer(client_id + ":" + client_secret).toString("base64"),
+        Buffer.from(client_id + ":" + client_secret).toString("base64"),
     },
     form: {
       grant_type: "refresh_token",
@@ -156,5 +162,5 @@ app.get("/refresh_token", function (req, res) {
   });
 });
 
-console.log("Listening on 8888");
+console.log("Listening on 8888...");
 app.listen(8888);

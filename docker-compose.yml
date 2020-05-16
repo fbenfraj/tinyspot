@@ -1,6 +1,18 @@
-version: '3.7'
+version: "3.7"
 
 services:
+  api:
+    container_name: api
+    build:
+      context: ./auth-server
+      dockerfile: Dockerfile
+    command: npm run dev
+    volumes:
+      - "./auth-server:/app"
+      - "/app/node_modules"
+    ports:
+      - 8080:8888
+    restart: always
 
   client:
     container_name: client
@@ -8,11 +20,14 @@ services:
       context: ./client
       dockerfile: Dockerfile
     volumes:
-      - './client:/app'
-      - '/app/node_modules'
+      - "./client:/app"
+      - "/app/node_modules"
     ports:
       - 3001:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     tty: true
+    depends_on: 
+      - api
+    restart: always

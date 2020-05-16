@@ -85,7 +85,7 @@ function App() {
   }
 
   function logout() {
-    window.location.href = "http://localhost:3000";
+    window.location.href = "http://localhost:3001";
   }
 
   return (
@@ -96,7 +96,7 @@ function App() {
           <h2>
             Please connect to your Spotify account thanks to the button below.
           </h2>
-          <a href="http://localhost:8888/login">
+          <a href="http://localhost:8080/login">
             <button>Login with Spotify</button>
           </a>
         </div>
