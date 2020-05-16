@@ -12,10 +12,25 @@ function App() {
     image: "",
   });
   const [displayName, setDisplayName] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [lastSavedTracks, setLastSavedTracks] = useState([]);
 
   useEffect(() => {
     if (params.access_token) {
+      const userLastTracks = [];
       spotifyWebApi.setAccessToken(params.access_token);
+      spotifyWebApi.getMySavedTracks().then((response) => {
+        const firstSavedTracks = response.items.slice(0, 5);
+        firstSavedTracks.forEach((item) => {
+          const track = {
+            name: item.track.name,
+            artist: item.track.artists[0].name,
+          };
+          userLastTracks.push(track);
+        });
+        setLastSavedTracks(userLastTracks);
+        console.log(lastSavedTracks);
+      });
     }
   }, [params]);
 
@@ -23,8 +38,8 @@ function App() {
     async function setUserInfos() {
       if (params.access_token) {
         const userData = await spotifyWebApi.getMe();
-        console.log(userData);
         setDisplayName(userData.display_name);
+        setProfileImage(userData.images[0].url);
       }
     }
     setUserInfos();
@@ -69,13 +84,8 @@ function App() {
     }
   }
 
-  async function getMe() {
-    try {
-      const response = await spotifyWebApi.getMe();
-      console.log(response);
-    } catch (e) {
-      console.log(e);
-    }
+  function logout() {
+    window.location.href = "http://localhost:3000";
   }
 
   return (
@@ -93,12 +103,25 @@ function App() {
       )}
       {loggedIn && (
         <div>
+          <img src={profileImage} alt="portrait" />
+          <br />
+          <button onClick={logout}>Logout</button>
           <p>Now playing: {nowPlaying.name}</p>
-          <img src={nowPlaying.image} style={{ width: 100 }} />
+          <img src={nowPlaying.image} style={{ width: 100 }} alt="" />
           <br />
           <button onClick={getNowPlaying}>Check now playing</button>
           <button onClick={pauseSong}>Pause</button>
           <button onClick={playSong}>Play</button>
+          <p>5 last liked songs:</p>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {lastSavedTracks.map((track) => {
+              return (
+                <li>
+                  {track.name} by {track.artist}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
     </div>
