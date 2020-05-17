@@ -6,7 +6,7 @@ services:
     build:
       context: ./auth-server
       dockerfile: Dockerfile
-    command: npm run dev
+    command: npm start
     volumes:
       - "./auth-server:/app"
       - "/app/node_modules"
