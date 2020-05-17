@@ -42,7 +42,11 @@
   }
 }
 
-#login-button {
+button {
+  margin: 10px;
+}
+
+.whiteButton {
   background: none;
   border: 1px solid white;
   color: #1db954;
@@ -51,4 +55,5 @@
   text-transform: uppercase;
   font-weight: bold;
   font-size: 17px;
+  cursor: pointer;
 }

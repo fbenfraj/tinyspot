@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { spotifyWebApi } from "../App";
+import { spotifyWebApi } from "../../App";
+import logo from "../../logo.svg";
+import dashboardStyles from "./Dashboard.module.scss";
 
 const Dashboard = () => {
   const params = getHashParams();
@@ -88,27 +90,47 @@ const Dashboard = () => {
   return (
     <div className="App">
       {!loggedIn && <Redirect to="/login" />}
-      <div>
-        <h1>Welcome to Tinysport, {displayName}!</h1>
-        <img src={profileImage} alt="portrait" />
-        <br />
-        <button onClick={logout}>Logout</button>
-        <p>Now playing: {nowPlaying.name}</p>
-        <img src={nowPlaying.image} style={{ width: 100 }} alt="" />
-        <br />
-        <button onClick={getNowPlaying}>Check now playing</button>
-        <button onClick={pauseSong}>Pause</button>
-        <button onClick={playSong}>Play</button>
-        <p>5 last liked songs:</p>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {lastSavedTracks.map((track, index) => {
-            return (
-              <li key={index}>
-                {track.name} by {track.artist}
-              </li>
-            );
-          })}
-        </ul>
+      <div className="App-header">
+        <header className={dashboardStyles.header}>
+          <img src={logo} alt="logo" height="100px" />
+          <h1>Welcome to Tinysport, {displayName}!</h1>
+          <button className="whiteButton" onClick={logout}>
+            Logout
+          </button>
+        </header>
+        <img
+          src={profileImage}
+          className={dashboardStyles.portrait}
+          alt="portrait"
+        />
+        <main className={dashboardStyles.main}>
+          <section>
+            <p>Now playing: {nowPlaying.name}</p>
+            <img src={nowPlaying.image} style={{ width: 100 }} alt="" />
+            <br />
+            <button className="whiteButton" onClick={getNowPlaying}>
+              Check now playing
+            </button>
+            <button className="whiteButton" onClick={pauseSong}>
+              Pause
+            </button>
+            <button className="whiteButton" onClick={playSong}>
+              Play
+            </button>
+          </section>
+          <section>
+            <p>5 last liked songs:</p>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {lastSavedTracks.map((track, index) => {
+                return (
+                  <li key={index}>
+                    {track.name} by {track.artist}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        </main>
       </div>
     </div>
   );

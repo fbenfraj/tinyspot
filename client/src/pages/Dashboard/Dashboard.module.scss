@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.portrait {
+  border-radius: 150px;
+}
+
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}

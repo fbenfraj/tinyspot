@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../logo.svg";
 
-const Login = (props) => {
+const Login = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -11,7 +11,7 @@ const Login = (props) => {
           Please connect to your Spotify account thanks to the button below.
         </h2>
         <a href="http://localhost:8888/login">
-          <button id="login-button">Login with Spotify</button>
+          <button className="whiteButton">Login with Spotify</button>
         </a>
       </header>
     </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
-import Spotify from "spotify-web-api-js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Spotify from "spotify-web-api-js";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 export const spotifyWebApi = new Spotify();
 
