@@ -1,17 +1,19 @@
 import React from "react";
+import logo from "../logo.svg";
 
 const Login = (props) => {
   return (
     <div className="App">
-      <h1>Welcome to TinySpot!</h1>
-      <div>
+      <header className="App-header">
+        <h1>Welcome to Tinyspot</h1>
+        <img src={logo} className="App-logo" alt="logo" />
         <h2>
           Please connect to your Spotify account thanks to the button below.
         </h2>
         <a href="http://localhost:8888/login">
-          <button>Login with Spotify</button>
+          <button id="login-button">Login with Spotify</button>
         </a>
-      </div>
+      </header>
     </div>
   );
 };
