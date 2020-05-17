@@ -29,10 +29,9 @@ function App() {
           userLastTracks.push(track);
         });
         setLastSavedTracks(userLastTracks);
-        console.log(lastSavedTracks);
       });
     }
-  }, [params]);
+  }, [params.access_token]);
 
   useEffect(() => {
     async function setUserInfos() {
@@ -85,7 +84,7 @@ function App() {
   }
 
   function logout() {
-    window.location.href = "http://localhost:3001";
+    window.location.href = "http://localhost:3000";
   }
 
   return (
@@ -96,7 +95,7 @@ function App() {
           <h2>
             Please connect to your Spotify account thanks to the button below.
           </h2>
-          <a href="http://localhost:8080/login">
+          <a href="http://localhost:8888/login">
             <button>Login with Spotify</button>
           </a>
         </div>
@@ -114,9 +113,9 @@ function App() {
           <button onClick={playSong}>Play</button>
           <p>5 last liked songs:</p>
           <ul style={{ listStyle: "none", padding: 0 }}>
-            {lastSavedTracks.map((track) => {
+            {lastSavedTracks.map((track, index) => {
               return (
-                <li>
+                <li key={index}>
                   {track.name} by {track.artist}
                 </li>
               );
