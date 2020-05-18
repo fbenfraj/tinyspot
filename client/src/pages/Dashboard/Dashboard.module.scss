@@ -1,13 +1,23 @@
 .header {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-top: 20px;
 }
 
-.portrait {
+#portrait {
   border-radius: 150px;
+  margin-right: 20px;
+}
+
+#logo {
+  height: 100px;
+  margin-left: 50px;
+}
+
+#logout {
+  margin-right: 50px;
 }
 
 .main {
@@ -17,7 +27,7 @@
   justify-content: space-evenly;
 }
 
-.topSection {
+.presentation {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -48,4 +58,33 @@
 
 .topArtistImg {
   height: 320px;
+}
+
+.white {
+  color: white;
+}
+
+.trackList {
+  list-style: none;
+  padding: 0;
+}
+
+.flexRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.flexCol {
+  display: column;
+  align-items: center;
+}
+
+#displayName {
+  margin: 0 30px;
+}
+
+#email {
+  margin: 0;
 }

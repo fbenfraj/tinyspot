@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [displayName, setDisplayName] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [lastSavedTracks, setLastSavedTracks] = useState([]);
-  const [isPlaying, setIsPlaying] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
   const [favoriteArtist, setFavoriteArtist] = useState({});
   const [topTracks, setTopTracks] = useState([]);
 
@@ -128,48 +128,62 @@ const Dashboard = () => {
       {!loggedIn && <Redirect to="/login" />}
       <div className="App-header">
         <header className={dashboardStyles.header}>
-          <img src={logo} alt="logo" />
-          <h1>Welcome to Tinyspot, {displayName}!</h1>
-          <button className="whiteButton" onClick={logout}>
+          <img id={dashboardStyles.logo} src={logo} alt="logo" />
+          <h1 id={dashboardStyles.displayName}>{displayName}</h1>
+          <button
+            id={dashboardStyles.logout}
+            className="whiteButton"
+            onClick={logout}
+          >
             Logout
           </button>
         </header>
         <main className={dashboardStyles.main}>
-          <section className={dashboardStyles.topSection}>
-            <img
-              src={profileImage}
-              className={dashboardStyles.portrait}
-              alt="portrait"
-            />
-            <p>Now playing: {nowPlaying.name}</p>
-            <img src={nowPlaying.image} style={{ width: 100 }} alt="" />
-            <br />
-            {isPlaying && (
-              <div>
-                <button className="whiteButton" onClick={pauseSong}>
-                  Pause
-                </button>
-                <button className="greenButton" onClick={playSong}>
-                  Play
-                </button>
-              </div>
-            )}
+          <section className={dashboardStyles.presentation}>
+            <div className={dashboardStyles.flexRow}>
+              <img
+                src={profileImage}
+                id={dashboardStyles.portrait}
+                alt="portrait"
+              />
+              <section>
+                <p>Now playing: {nowPlaying.name}</p>
+                <img src={nowPlaying.image} style={{ width: 100 }} alt="" />
+                <br />
+                {isPlaying && (
+                  <div>
+                    <button className="whiteButton" onClick={pauseSong}>
+                      Pause
+                    </button>
+                    <button className="greenButton" onClick={playSong}>
+                      Play
+                    </button>
+                  </div>
+                )}
+              </section>
+            </div>
           </section>
           <section className={dashboardStyles.favorites}>
             <div className={dashboardStyles.favoritesCard}>
-              <p>Top 5 tracks:</p>
-              <ul style={{ listStyle: "none", padding: 0 }}>
+              <h2>Top 5 tracks:</h2>
+              <ul className={dashboardStyles.trackList}>
                 {topTracks.map((track, index) => {
                   return (
-                    <li key={index}>
-                      {track.title} by {track.artist}
+                    <li
+                      key={index}
+                      className={index % 2 === 0 && dashboardStyles.white}
+                    >
+                      {track.title} - {track.artist}
                     </li>
                   );
                 })}
               </ul>
             </div>
             <div className={dashboardStyles.favoritesCard}>
-              <p>Top artist: {favoriteArtist.name}</p>
+              <h2>Top artist: </h2>
+              <span className={dashboardStyles.white}>
+                {favoriteArtist.name}
+              </span>
               <img
                 className={dashboardStyles.topArtistImg}
                 src={favoriteArtist.img}
@@ -177,12 +191,15 @@ const Dashboard = () => {
               />
             </div>
             <div className={dashboardStyles.favoritesCard}>
-              <p>5 last liked songs:</p>
-              <ul style={{ listStyle: "none", padding: 0 }}>
+              <h2>5 last liked songs:</h2>
+              <ul className={dashboardStyles.trackList}>
                 {lastSavedTracks.map((track, index) => {
                   return (
-                    <li key={index}>
-                      {track.name} by {track.artist}
+                    <li
+                      key={index}
+                      className={index % 2 === 0 && dashboardStyles.white}
+                    >
+                      {track.name} - {track.artist}
                     </li>
                   );
                 })}
@@ -190,6 +207,15 @@ const Dashboard = () => {
             </div>
           </section>
         </main>
+        <footer id="footer">
+          <p>
+            2020 -{" "}
+            <span className={dashboardStyles.white}>
+              Created by BEN FRAJ Farouk
+            </span>{" "}
+            - benfraj.farouk39@gmail.com
+          </p>
+        </footer>
       </div>
     </div>
   );
