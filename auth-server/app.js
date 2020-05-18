@@ -44,7 +44,7 @@ app
 
 app.get("/ping", (req, res) => {
   res.send({
-    message: "Server is up. :)"
+    message: "Server is up. :)",
   });
 });
 
@@ -54,7 +54,7 @@ app.get("/login", function (req, res) {
 
   // your application requests authorization
   var scope =
-    "user-read-private user-read-email user-read-playback-state user-modify-playback-state user-library-read";
+    "user-read-private user-read-email user-read-playback-state user-modify-playback-state user-library-read user-top-read";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
