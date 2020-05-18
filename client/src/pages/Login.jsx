@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import logo from "../logo.svg";
 
 const Login = () => {
   const [serverIsOnline, setServerIsOnline] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkServer = async () => {
@@ -15,6 +17,12 @@ const Login = () => {
     checkServer();
   }, []);
 
+  useEffect(() => {
+    if (getCookie("access_token")) {
+      setLoggedIn(true);
+    }
+  }, []);
+
   const login = () => {
     if (serverIsOnline) {
       window.location.href = "http://localhost:8888/login";
@@ -23,8 +31,15 @@ const Login = () => {
     }
   };
 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
   return (
     <div className="App">
+      {loggedIn && <Redirect to="/" />}
       <header className="App-header">
         <main className="login">
           <h1>Welcome to Tinyspot</h1>

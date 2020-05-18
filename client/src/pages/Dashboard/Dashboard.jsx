@@ -6,10 +6,9 @@ import dashboardStyles from "./Dashboard.module.scss";
 
 const Dashboard = () => {
   const params = getHashParams();
-  const loggedIn = params.access_token ? true : false;
-
+  const [loggedIn, setLoggedIn] = useState(true);
   const [nowPlaying, setNowPlaying] = useState({
-    name: "Click on the button below to find out!",
+    name: "",
     image: "",
   });
   const [displayName, setDisplayName] = useState("");
@@ -20,9 +19,14 @@ const Dashboard = () => {
   const [topTracks, setTopTracks] = useState([]);
 
   useEffect(() => {
-    if (params.access_token) {
+    if (params.access_token || getCookie("access_token")) {
       const userLastTracks = [];
-      spotifyWebApi.setAccessToken(params.access_token);
+      if (params.access_token) {
+        spotifyWebApi.setAccessToken(params.access_token);
+      }
+      if (getCookie("access_token")) {
+        spotifyWebApi.setAccessToken(getCookie("access_token"));
+      }
       spotifyWebApi.getMySavedTracks().then((response) => {
         const firstSavedTracks = response.items.slice(0, 5);
         firstSavedTracks.forEach((item) => {
@@ -34,6 +38,8 @@ const Dashboard = () => {
         });
         setLastSavedTracks(userLastTracks);
       });
+    } else {
+      setLoggedIn(false);
     }
   }, [params.access_token]);
 
@@ -62,7 +68,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     async function setUserInfos() {
-      if (params.access_token) {
+      if (params.access_token || getCookie("access_token")) {
         const userData = await spotifyWebApi.getMe();
         setDisplayName(userData.display_name);
         setProfileImage(userData.images[0].url);
@@ -82,6 +88,9 @@ const Dashboard = () => {
       q = window.location.hash.substring(1);
     while ((e = r.exec(q))) {
       hashParams[e[1]] = decodeURIComponent(e[2]);
+    }
+    if (hashParams.access_token) {
+      document.cookie = "access_token=" + hashParams.access_token;
     }
     return hashParams;
   }
@@ -103,7 +112,8 @@ const Dashboard = () => {
   }
 
   function logout() {
-    window.location.href = "http://localhost:3000";
+    window.location.href = "http://localhost:3000/login";
+    deleteCookie("access_token");
   }
 
   async function getNowPlaying() {
@@ -121,6 +131,17 @@ const Dashboard = () => {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
+  function deleteCookie(name) {
+    document.cookie =
+      name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   }
 
   return (
@@ -171,7 +192,9 @@ const Dashboard = () => {
                   return (
                     <li
                       key={index}
-                      className={index % 2 === 0 && dashboardStyles.white}
+                      className={
+                        index % 2 === 0 ? dashboardStyles.white : undefined
+                      }
                     >
                       {track.title} - {track.artist}
                     </li>
@@ -197,7 +220,9 @@ const Dashboard = () => {
                   return (
                     <li
                       key={index}
-                      className={index % 2 === 0 && dashboardStyles.white}
+                      className={
+                        index % 2 === 0 ? dashboardStyles.white : undefined
+                      }
                     >
                       {track.name} - {track.artist}
                     </li>
