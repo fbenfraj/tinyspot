@@ -61,7 +61,15 @@ const Login = () => {
         <footer id="footer" style={{ position: "fixed", bottom: 0 }}>
           <p>
             2020 - <span className="white">Created by BEN FRAJ Farouk</span> -
-            benfraj.farouk39@gmail.com
+            farouk.ben-fraj@outlook.com -{" "}
+            <a
+              href="https://github.com/fbenfraj/tinyspot"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="github"
+            >
+              github
+            </a>
           </p>
         </footer>
       </header>

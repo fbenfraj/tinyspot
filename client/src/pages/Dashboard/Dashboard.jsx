@@ -111,6 +111,24 @@ const Dashboard = () => {
     }
   }
 
+  async function previousSong() {
+    try {
+      await spotifyWebApi.skipToPrevious();
+      setTimeout(async () => await getNowPlaying(), 250);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function nextSong() {
+    try {
+      await spotifyWebApi.skipToNext();
+      setTimeout(async () => await getNowPlaying(), 250);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   function logout() {
     window.location.href = "http://localhost:3000/login";
     deleteCookie("access_token");
@@ -132,6 +150,10 @@ const Dashboard = () => {
       console.log(e);
     }
   }
+
+  useEffect(() => {
+    console.log(nowPlaying);
+  }, [nowPlaying]);
 
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -173,11 +195,17 @@ const Dashboard = () => {
                 <br />
                 {isPlaying && (
                   <div>
+                    <button className="greenButton" onClick={previousSong}>
+                      prev
+                    </button>
                     <button className="whiteButton" onClick={pauseSong}>
-                      Pause
+                      ||
                     </button>
                     <button className="greenButton" onClick={playSong}>
                       Play
+                    </button>
+                    <button className="greenButton" onClick={nextSong}>
+                      next
                     </button>
                   </div>
                 )}
@@ -234,11 +262,20 @@ const Dashboard = () => {
         </main>
         <footer id="footer">
           <p>
-            2020 -{" "}
+            2020 -
             <span className={dashboardStyles.white}>
-              Created by BEN FRAJ Farouk
-            </span>{" "}
-            - benfraj.farouk39@gmail.com
+              {" "}
+              Created by BEN FRAJ Farouk{" "}
+            </span>
+            - farouk.ben-fraj@outlook.com -{" "}
+            <a
+              href="https://github.com/fbenfraj/tinyspot"
+              target="_blank"
+              rel="noopener noreferrer"
+              id="github"
+            >
+              github
+            </a>
           </p>
         </footer>
       </div>
